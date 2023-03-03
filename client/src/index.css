@@ -1,0 +1,23 @@
+* {
+  margin: 0;
+}
+
+.full {
+  height: 100vh;
+}
+
+.Delete {
+  cursor: pointer;
+}
+
+.button_header {
+  border-radius: 10px;
+  text-decoration: none;
+  text-align: center;
+  color: white;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+.border_top {
+  border-top: 5px #9333EA solid;
+}
