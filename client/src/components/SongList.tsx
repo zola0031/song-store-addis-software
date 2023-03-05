@@ -1,9 +1,10 @@
-import { useState } from 'react';
-import { useDeleteSongMutation, useGetSongsQuery } from '../services/songApi';
+import { useEffect, useState } from 'react';
+// import { useDeleteSongMutation, useGetSongsQuery } from '../services/songApi';
 import { Outlet, Link } from "react-router-dom";
 import '../index.css'
 import { Box, Button, Card, Flex } from 'rebass';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { getSongs } from "../redux/songSlice.js";
 
 export interface SongModel {
   _id: string;
@@ -16,41 +17,50 @@ export interface SongModel {
 }
 
 export default function SongList() {
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getSongs)
+  }, [dispatch]);
+
+  const songs = useSelector((state) => state.song);
+  console.log({songs});
+
   const limit = 10;
   const [page, setPage] = useState(1);
-  const {
-    data: songs = [],
-    isLoading,
-    isFetching,
-    isError,
-    error,
-  } = useGetSongsQuery(page, limit);
+  // const {
+  //   data: songs = [],
+  //   isLoading,
+  //   isFetching,
+  //   isError,
+  //   error,
+  // } = useGetSongsQuery(page, limit);
 
-  const [deleteSong, { isLoading: loading }] = useDeleteSongMutation();
+  // const [deleteSong, { isLoading: loading }] = useDeleteSongMutation();
 
-  const totalPage = Math.ceil(songs.total / limit);
+  const totalPage = Math.ceil(songs?.total / limit);
 
-  if (isLoading || isFetching) {
-    return (
-      <div className="d-flex justify-content-center">
-        <div className="spinner-border" role="status">
-          <span className="visually-hidden">Loading...</span>
-        </div>
-      </div>
-    );
-  }
+  // if (isLoading || isFetching) {
+  //   return (
+  //     <div className="d-flex justify-content-center">
+  //       <div className="spinner-border" role="status">
+  //         <span className="visually-hidden">Loading...</span>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
-  if (isError) {
-    console.log({ error });
-    return (
-      <div className="alert alert-danger" role="alert">
-        {error}
-      </div>
-    );
-  }
+  // if (isError) {
+  //   console.log({ error });
+  //   return (
+  //     <div className="alert alert-danger" role="alert">
+  //       {error}
+  //     </div>
+  //   );
+  // }
   function removeSong(event: any, id: string) {
     event.preventDefault();
-    deleteSong(id);
+    // deleteSong(id);
   }
   return (
     <Box width={700} mx={2}>
@@ -62,13 +72,11 @@ export default function SongList() {
           boxShadow: '0 0 16px rgba(0, 0, 0, .25)',
         }}
         className="border_top">
-        <table className='songs_table'>
           <Box color="white" backgroundColor="#9333EA" width={100} p={10} my={2}>
             <Link to={"/new"} className="button_header">
               Add New
             </Link>
           </Box>
-          <tr>
             <Flex width={700}>
               <Box width={1 / 5}><th>Title</th></Box>
               <Box width={1 / 5}><th>Artist</th></Box>
@@ -79,9 +87,7 @@ export default function SongList() {
             <Box width={630}>
               <hr />
             </Box>
-          </tr>
-          {songs.data.map((song) => (
-            <tr key={song._id}>
+          {songs?.data.map((song) => (
               <Flex>
                 <Box width={1 / 5}>
                   <td>
@@ -103,7 +109,6 @@ export default function SongList() {
                     {song.genre}
                   </td>
                 </Box>
-                <td>
                   <Flex width={50}>
                     <Box width={1 / 2}>
                       <Link to={`/update/${song._id}`} state={{ song: song }}>
@@ -143,12 +148,9 @@ export default function SongList() {
                       </Box></Button>
                     </Box>
                   </Flex>
-                </td>
               </Flex>
-            </tr>
           ))}
 
-        </table>
         <Flex>
           <Button
             color="white" backgroundColor="#9333EA"
@@ -160,7 +162,7 @@ export default function SongList() {
               <Box
                 width={20}
                 color="white">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 rtl:-scale-x-100">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18" />
                 </svg>
               </Box>
@@ -178,7 +180,7 @@ export default function SongList() {
                 width={20}
                 color="white"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 rtl:-scale-x-100">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
                 </svg>
               </Box>

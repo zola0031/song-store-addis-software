@@ -2,13 +2,13 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App'
 import './index.css'
-import { ApiProvider } from '@reduxjs/toolkit/dist/query/react'
-import { songApi } from './services/songApi';
+import  { Provider }  from 'react-redux'
+import store  from './redux/configureStore';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <ApiProvider api={songApi}>
+    <Provider store={store}>
       <App />
-    </ApiProvider>
+    </Provider>
   </React.StrictMode>,
 )

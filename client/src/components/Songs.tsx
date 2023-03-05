@@ -7,7 +7,7 @@ export default function Songs() {
     return (
         <Flex>
             <Box mx={5}><SongList /></Box>
-            <Box mx={5}><SongStatic /></Box>
+            {/* <Box mx={5}><SongStatic /></Box> */}
         </Flex>
     );
 }

@@ -1,34 +1,35 @@
-import { useGetSongStaticsQuery } from "../services/songApi";
+// import { useGetSongStaticsQuery } from "../services/songApi";
 import { Flex, Box, Text, Card } from 'rebass';
 import '../index.css';
 export default function SongStatic() {
-    const {
-        data: songStatics = {},
-        isLoading,
-        isFetching,
-        isError,
-        error,
-    } = useGetSongStaticsQuery();
-    console.log("🚀 ~ file: SongStatic.tsx:7 ~ SongStatic ~ songStatics:", songStatics)
+    const songs = [];
+    const songStatics = {};
+    // const {
+    //     data: songStatics = {},
+    //     isLoading,
+    //     isFetching,
+    //     isError,
+    //     error,
+    // } = useGetSongStaticsQuery();
 
-    if (isLoading || isFetching) {
-        return (
-            <div className="d-flex justify-content-center">
-                <div className="spinner-border" role="status">
-                    <span className="visually-hidden">Loading...</span>
-                </div>
-            </div>
-        );
-    }
+    // if (isLoading || isFetching) {
+    //     return (
+    //         <div className="d-flex justify-content-center">
+    //             <div className="spinner-border" role="status">
+    //                 <span className="visually-hidden">Loading...</span>
+    //             </div>
+    //         </div>
+    //     );
+    // }
 
-    if (isError) {
-        console.log({ error });
-        return (
-            <div className="alert alert-danger" role="alert">
-                {error}
-            </div>
-        );
-    }
+    // if (isError) {
+    //     console.log({ error });
+    //     return (
+    //         <div className="alert alert-danger" role="alert">
+    //             {error}
+    //         </div>
+    //     );
+    // }
     return (
         <Box>
             <Card

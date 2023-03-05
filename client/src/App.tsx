@@ -24,8 +24,8 @@ function App() {
             <Routes>
               <Route path="/" element={<Layout />}>
                 <Route index element={<Songs />} />
-                <Route path="new" element={<NewSongForm />} />
-                <Route path="update/:id" element={<UpdateSongForm />} />
+                {/* <Route path="new" element={<NewSongForm />} />
+                <Route path="update/:id" element={<UpdateSongForm />} /> */}
               </Route>
             </Routes>
           </BrowserRouter>
