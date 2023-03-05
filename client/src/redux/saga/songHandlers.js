@@ -1,17 +1,14 @@
 import { call, put } from "redux-saga/effects";
-import { getSongs } from "../songSlice";
+import { setSongs } from "../songSlice";
 import { requestGetSong } from "./songRequests";
 
 export function* handleGetSong(action) {
-    const payload = null;
-    // const payload = action.payload;
-    console.log("handler");
+    const { payload } = action.payload;
+    console.log("handler", payload);
     try {
-        const response = yield call(requestGetSong)
+        const response = yield call(requestGetSong, payload);
         const { data } = response;
-        console.log({data});
-        yield put(getSongs({...data}))
-
+        yield put(setSongs({...data}))
     } catch (error) {
         console.log({error})
     }

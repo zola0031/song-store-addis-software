@@ -1,10 +1,10 @@
 import { configureStore, combineReducers, getDefaultMiddleware } from "@reduxjs/toolkit";
 import createSagaMiddleware from "redux-saga";
 import { watcherSaga } from "./saga/rootSaga";
-import songSlice from "./songSlice";
+import songSlice from "./songSlice.js";
 
 const reducer = combineReducers({
-    song: songSlice
+    song: songSlice,
 });
 
 const sagaMiddleware = createSagaMiddleware();

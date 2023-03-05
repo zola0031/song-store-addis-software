@@ -9,14 +9,13 @@ const songSlice = createSlice({
         }
     },
     reducers:{
-        getSongs: {},
+        getSongs(state, action) {},
         setSongs(state, action) {
             const song = action.payload;
-            console.log({song});
             state.song = song;
             return state;
         },
-        getSongStatics: {},
+        getSongStatics() {},
         createSong(state, action){
             const song = action.payload;
             state.song.total += 1;
@@ -27,4 +26,4 @@ const songSlice = createSlice({
 
 export const {getSongs, setSongs, getSongStatics, createSong} = songSlice.actions;
 
-export default songSlice.reducers;
+export default songSlice.reducer;
