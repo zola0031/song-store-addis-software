@@ -1,15 +1,75 @@
-import { call, put } from "redux-saga/effects";
-import { setSongs } from "../songSlice";
-import { requestGetSong } from "./songRequests";
+import { put } from "redux-saga/effects";
+import { setSongs, setSongStatics } from "../songSlice";
+import {
+  getSongsAPI,
+  getSongStaticsAPI,
+  createSongsAPI,
+  updateSongsAPI,
+  deleteSongsAPI,
+} from "../apis/songsApi";
 
-export function* handleGetSong(action) {
-    const { payload } = action.payload;
-    console.log("handler", payload);
-    try {
-        const response = yield call(requestGetSong, payload);
-        const { data } = response;
-        yield put(setSongs({...data}))
-    } catch (error) {
-        console.log({error})
-    }
+export function* handleGetSongs(action) {
+  try {
+    const { payload } = action;
+    const songs = yield getSongsAPI(payload);
+    yield put(setSongs(songs.data));
+  } catch (error) {
+    console.log(
+      "🚀 ~ file: songHandlers.js:12 ~ function*handleGetSongs ~ error:",
+      error
+    );
+  }
+}
+
+export function* handleGetSongStatics(action) {
+  try {
+    const songs = yield getSongStaticsAPI();
+    const { data } = songs;
+    console.log(
+      "🚀 ~ file: songHandlers.js:28 ~ function*handleGetSongStatics ~ data:",
+      data
+    );
+    yield put(setSongStatics(songs.data));
+  } catch (error) {
+    console.log(
+      "🚀 ~ file: songHandlers.js:28 ~ function*handleGetSongStatics ~ error:",
+      error
+    );
+  }
+}
+
+export function* handleCreateSong(action) {
+  const { payload } = action;
+  try {
+    yield createSongsAPI(payload);
+  } catch (error) {
+    console.log(
+      "🚀 ~ file: songHandlers.js:30 ~ function*handleCreateSong ~ error:",
+      error
+    );
+  }
+}
+
+export function* handleUpdateSong(action) {
+  const { payload } = action;
+  try {
+    yield updateSongsAPI(payload);
+  } catch (error) {
+    console.log(
+      "🚀 ~ file: songHandlers.js:55 ~ function*handleUpdateSong ~ error:",
+      error
+    );
+  }
+}
+
+export function* handleDeleteSong(action) {
+  const { payload } = action;
+  try {
+    yield deleteSongsAPI(payload);
+  } catch (error) {
+    console.log(
+      "🚀 ~ file: songHandlers.js:55 ~ function*handleDeleteSong ~ error:",
+      error
+    );
+  }
 }

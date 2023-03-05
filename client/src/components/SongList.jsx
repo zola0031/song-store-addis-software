@@ -1,22 +1,12 @@
 import { useEffect, useState } from 'react';
-// import { useDeleteSongMutation, useGetSongsQuery } from '../services/songApi';
-import { Outlet, Link } from "react-router-dom";
+import {  Link } from "react-router-dom";
 import '../index.css'
 import { Box, Button, Card, Flex } from 'rebass';
 import { useDispatch, useSelector } from 'react-redux';
-import { getSongs } from "../redux/songSlice.js";
-
-// export interface SongModel {
-//   _id: string;
-//   title: string;
-//   artist: string;
-//   album: string;
-//   genre: string;
-//   createdAt: string;
-//   updatedAt: string;
-// }
+import { getSongs, deleteSong } from "../redux/songSlice.js";
 
 export default function SongList() {
+  const [isLoading, setIsLoading] = useState(false);
   
   const {song: songs} = useSelector((state) => state.song);
 
@@ -25,33 +15,26 @@ export default function SongList() {
   const totalPage = Math.ceil(songs?.total / limit);
 
   const dispatch = useDispatch();
+  const payload = { page, limit: 10 };
+  
   useEffect(() => {
-    const payload = {page: 1, limit: 10};
-    dispatch(getSongs({payload}));
+    setIsLoading(true);
+
+    dispatch(getSongs(payload));
+    
+    setIsLoading(false);
 
   }, [dispatch, page]);
-
   
-  // const {
-  //   data: songs = [],
-  //   isLoading,
-  //   isFetching,
-  //   isError,
-  //   error,
-  // } = useGetSongsQuery(page, limit);
-
-  // const [deleteSong, { isLoading: loading }] = useDeleteSongMutation();
-
-
-  // if (isLoading || isFetching) {
-  //   return (
-  //     <div className="d-flex justify-content-center">
-  //       <div className="spinner-border" role="status">
-  //         <span className="visually-hidden">Loading...</span>
-  //       </div>
-  //     </div>
-  //   );
-  // }
+  if (isLoading) {
+    return (
+      <div className="d-flex justify-content-center">
+        <div className="spinner-border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    );
+  }
 
   // if (isError) {
   //   console.log({ error });
@@ -61,10 +44,14 @@ export default function SongList() {
   //     </div>
   //   );
   // }
-  // function removeSong(event: any, id: string) {
-  //   event.preventDefault();
-  //   // deleteSong(id);
-  // }
+
+  function removeSong(event, id) {
+    event.preventDefault();
+    // deleteSong(id);
+    dispatch(deleteSong({ id }));
+    dispatch(getSongs(payload));
+    
+  }
 
   return (
     <Box width={700} mx={2}>

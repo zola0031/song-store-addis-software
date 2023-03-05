@@ -9,6 +9,7 @@ import {
 } from 'rebass';
 import "./index.css";
 import SongList from "./components/SongList"
+import React from "react"
 function App() {
   return (
     <div className="App">
@@ -24,9 +25,9 @@ function App() {
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Layout />}>
-                <Route index element={<SongList />} />
-                {/* <Route path="new" element={<NewSongForm />} />
-                <Route path="update/:id" element={<UpdateSongForm />} /> */}
+                <Route index element={<Songs />} />
+                <Route path="new" element={<NewSongForm />} />
+                <Route path="update/:id" element={<UpdateSongForm />} />
               </Route>
             </Routes>
           </BrowserRouter>
