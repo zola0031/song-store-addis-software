@@ -1,4 +1,5 @@
 
+import React from 'react';
 import { Box, Button, Card, Flex } from 'rebass';
 import SongList from './SongList';
 import SongStatic from './SongStatic';

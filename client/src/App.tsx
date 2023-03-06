@@ -8,6 +8,8 @@ import {
   Card,
 } from 'rebass';
 import "./index.css";
+import SongList from "./components/SongList"
+import React from "react"
 function App() {
   return (
     <div className="App">

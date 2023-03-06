@@ -1,17 +1,26 @@
-import { useGetSongStaticsQuery } from "../services/songApi";
+import { useDispatch, useSelector } from 'react-redux';
+import { getSongStatics } from "../redux/songSlice.js";
 import { Flex, Box, Text, Card } from 'rebass';
 import '../index.css';
-export default function SongStatic() {
-    const {
-        data: songStatics = {},
-        isLoading,
-        isFetching,
-        isError,
-        error,
-    } = useGetSongStaticsQuery();
-    console.log("🚀 ~ file: SongStatic.tsx:7 ~ SongStatic ~ songStatics:", songStatics)
+import { useEffect, useState } from "react";
 
-    if (isLoading || isFetching) {
+export default function SongStatic() {
+
+    const { statics: songStatics } = useSelector((state) => state.song);
+
+    const [isLoading, setIsLoading] = useState(false);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        setIsLoading(true);
+
+        dispatch(getSongStatics());
+
+        setIsLoading(false);
+
+    }, []);
+
+    if (isLoading) {
         return (
             <div className="d-flex justify-content-center">
                 <div className="spinner-border" role="status">
@@ -21,14 +30,14 @@ export default function SongStatic() {
         );
     }
 
-    if (isError) {
-        console.log({ error });
-        return (
-            <div className="alert alert-danger" role="alert">
-                {error}
-            </div>
-        );
-    }
+    // if (isError) {
+    //     console.log({ error });
+    //     return (
+    //         <div className="alert alert-danger" role="alert">
+    //             {error}
+    //         </div>
+    //     );
+    // }
     return (
         <Box>
             <Card
@@ -45,11 +54,11 @@ export default function SongStatic() {
                         fontFamily="'Courier New', Courier, monospace"
                         fontWeight='bold'
                         color='primary'>
-                        All Songs: {songStatics.countAll[0].count}
+                        All Songs: {songStatics?.countAll[0]?.count}
                     </Text>
                 </Box>
                 <Flex>
-                    <Box >
+                    <Box>
                         <Flex px={2} pb={2}>
                             <Text
                                 fontSize={[4]}
@@ -59,7 +68,7 @@ export default function SongStatic() {
                                 By Album
                             </Text>
                         </Flex>
-                        {songStatics.countByAlbum.map((album) => (
+                        {songStatics?.countByAlbum?.map((album) => (
                             <Flex px={3} width={200}>
                                 <Box width={1 / 2}>
                                     <Text
@@ -81,7 +90,7 @@ export default function SongStatic() {
                         ))}
                     </Box>
                     <hr />
-                    <Box >
+                    <Box>
                         <Flex px={2} pb={2}>
                             <Text
                                 fontSize={[4]}
@@ -91,7 +100,7 @@ export default function SongStatic() {
                                 By Artists
                             </Text>
                         </Flex>
-                        {songStatics.countByArtist.map((album) => (
+                        {songStatics?.countByArtist?.map((album) => (
                             <Flex px={3} width={200}>
                                 <Box width={1 / 2}>
                                     <Text
@@ -123,7 +132,7 @@ export default function SongStatic() {
                                 By Genre
                             </Text>
                         </Flex>
-                        {songStatics.countByGenre.map((album) => (
+                        {songStatics?.countByGenre?.map((album) => (
                             <Flex px={3} width={200}>
                                 <Box width={1 / 2}>
                                     <Text

@@ -1,0 +1,19 @@
+version: '3'
+services:
+  song-store-api:
+    image: song-store-api
+    restart: always
+    build:
+      context: /directory/to/express/api
+      dockerfile: /directory/to/express/api/Dockerfile
+    ports:
+      - "5000:5000"
+
+  song-store-client:
+    image: song-store-client
+    restart: always
+    build:
+      context: /directory/to/react/app
+      dockerfile: /directory/to/react/app/Dockerfile
+    ports:
+      - "5173:5173"

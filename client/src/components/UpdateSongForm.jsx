@@ -1,4 +1,3 @@
-import { useUpdateSongMutation } from '../services/songApi';
 import { Link, useLocation, useParams } from "react-router-dom";
 import { useNavigate } from 'react-router'
 import '../index.css'
@@ -7,24 +6,32 @@ import {
   Input,
 } from '@rebass/forms';
 import { Box, Flex } from 'rebass';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { updateSong } from '../redux/songSlice';
 
 export default function UpdateSongForm() {
+
+  const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
+
   const location = useLocation()
   const navigate = useNavigate()
   const { song } = location.state
   const params = useParams();
   const id = params.id;
-  const [updateSong, { isLoading }] = useUpdateSongMutation();
   function submitSong(event) {
     event.preventDefault();
-    const data = {
+    const payload = {
       id,
       title: event.target['title'].value,
       artist: event.target['artist'].value,
       album: event.target['album'].value,
       genre: event.target['genre'].value
     }
-    updateSong(data);
+
+    dispatch(updateSong({ ...payload }))
+
     event.target.reset();
     navigate("/")
   }
