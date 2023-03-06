@@ -10,8 +10,6 @@ export default function SongStatic() {
 
     const [isLoading, setIsLoading] = useState(false);
     const dispatch = useDispatch();
-    const [page, setPage] = useState(1);
-
 
     useEffect(() => {
         setIsLoading(true);
@@ -20,7 +18,7 @@ export default function SongStatic() {
 
         setIsLoading(false);
 
-    }, [dispatch, page]);
+    }, []);
 
     if (isLoading) {
         return (
