@@ -49,10 +49,13 @@ const deleteSong = async (req, res) => {
 
 const songStatics = async (req, res) => {
   try {
-    const countAll = await getStatics(Song, null);
-    const countByGenre = await getStatics(Song, "$genre");
-    const countByArtist = await getStatics(Song, "$artist");
-    const countByAlbum = await getStatics(Song, "$album");
+    const [countAll, countByGenre, countByArtist, countByAlbum] =
+      await Promise.all([
+        getStatics(Song, null),
+        getStatics(Song, "$genre"),
+        getStatics(Song, "$artist"),
+        getStatics(Song, "$album"),
+      ]);
 
     const result = { countAll, countByGenre, countByArtist, countByAlbum };
 
